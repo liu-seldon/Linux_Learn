@@ -35,9 +35,9 @@ int main() {
                     ptrace(PTRACE_GETREGS, child,
                             NULL, &regs);
                     printf("Write called with "
-                            "%ld, %ld, %ld, %d\n",
+                            "%ld, %ld, %ld, %ld\n",
                             regs.rbx, regs.rcx,
-                            regs.rdx, );
+                            regs.rdx, regs.rbp);
 
                 }
                 else { /* Syscall exit */

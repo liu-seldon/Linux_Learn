@@ -34,7 +34,7 @@ void getdata(pid_t child, long addr,
     laddr = str;
     while(i < j) {
         data.val = ptrace(PTRACE_PEEKDATA,
-                child, addr + i * 4,
+                child, addr + i * 8,
                 NULL);
         memcpy(laddr, data.chars, long_size);
         ++i;
@@ -44,7 +44,7 @@ void getdata(pid_t child, long addr,
     j = len % long_size;
     if(j != 0) {
         data.val = ptrace(PTRACE_PEEKDATA,
-                child, addr + i * 4,
+                child, addr + i * 8,
                 NULL);
         memcpy(laddr, data.chars, j);
 
@@ -66,7 +66,7 @@ void putdata(pid_t child, long addr,
     while(i < j) {
         memcpy(data.chars, laddr, long_size);
         ptrace(PTRACE_POKEDATA, child,
-                addr + i * 4, data.val);
+                addr + i * 8, data.val);
         ++i;
         laddr += long_size;
 
@@ -75,7 +75,7 @@ void putdata(pid_t child, long addr,
     if(j != 0) {
         memcpy(data.chars, laddr, j);
         ptrace(PTRACE_POKEDATA, child,
-                addr + i * 4, data.val);
+                addr + i * 8, data.val);
 
     }
 }
@@ -107,7 +107,7 @@ int main() {
                             child, 8 * RBX,
                             NULL);
                     params[1] = ptrace(PTRACE_PEEKUSER,
-                            child, 8 * RCX,
+                            child, 8 * RBP,
                             NULL);
                     params[2] = ptrace(PTRACE_PEEKUSER,
                             child, 8 * RDX,
